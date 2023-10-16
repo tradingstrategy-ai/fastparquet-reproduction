@@ -15,7 +15,7 @@
 from pyarrow import parquet as pq  # pyarrow 10
 from fastparquet import ParquetFile  # fastparquet  2023.1.0
 
-path = "/tmp/candles-30d.parquet"
+path = "./candles-7d.parquet"
 
 pf1 = ParquetFile(path)
 pf2 = pq.read_table(path)
@@ -30,3 +30,12 @@ assert len(df1) == len(df2)  # Passes, looks like row count matches
 print("Unique pairs fastparquet", len(df1.pair_id.unique()))
 print("Unique pairs pyarrow", len(df2.pair_id.unique()))
 assert len(df1.pair_id.unique()) == len(df2.pair_id.unique())
+
+
+broken_pair_id = 8141
+
+candles = df1.loc[df1["pair_id"] == broken_pair_id]
+print("PyArrow pair_id has", len(candles), "candles")
+
+candles = df2.loc[df2["pair_id"] == broken_pair_id]
+print("FastParquet pair_id has", len(candles), "candles")
