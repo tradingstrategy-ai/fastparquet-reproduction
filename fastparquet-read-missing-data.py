@@ -39,3 +39,11 @@ print("PyArrow pair_id has", len(candles), "candles")
 
 candles = df2.loc[df2["pair_id"] == broken_pair_id]
 print("FastParquet pair_id has", len(candles), "candles")
+
+grouped = df1.groupby("pair_id")
+candles = grouped.get_group(broken_pair_id)
+print("Grouped PyArrow pair_id has", len(candles), "candles")
+
+grouped = df2.groupby("pair_id")
+candles = grouped.get_group(broken_pair_id)
+print("Grouped FastParquet pair_id has", len(candles), "candles")
